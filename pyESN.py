@@ -207,12 +207,11 @@ class ESN():
                        interpolation='nearest')
             plt.colorbar()
 
-        if not self.silent:
-            print("training error:")
         # apply learned weights to the collected states:
         pred_train = self._unscale_teacher(self.out_activation(
             np.dot(extended_states, self.W_out.T)))
         if not self.silent:
+            print("training error:")
             print(np.sqrt(np.mean((pred_train - outputs)**2)))
         return pred_train
 
@@ -247,8 +246,7 @@ class ESN():
             [lastoutput, np.zeros((n_samples, self.n_outputs))])
 
         for n in range(n_samples):
-            states[
-                n + 1, :] = self._update(states[n, :], inputs[n + 1, :], outputs[n, :])
+            states[n + 1, :] = self._update(states[n, :], inputs[n + 1, :], outputs[n, :])
             outputs[n + 1, :] = self.out_activation(np.dot(self.W_out,
                                                            np.concatenate([states[n + 1, :], inputs[n + 1, :]])))
 
