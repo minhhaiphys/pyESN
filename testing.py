@@ -211,20 +211,20 @@ class Performance(unittest.TestCase):
                   spectral_radius=0.25,
                   sparsity=0.95,
                   noise=0.001,
+                  transient=100,
                   input_shift=[0, 0],
                   input_scaling=[0.01, 3],
                   teacher_scaling=1.12,
                   teacher_shift=-0.7,
+                  teacher_forcing=True,
                   out_activation=np.tanh,
                   inverse_out_activation=np.arctanh,
-                  random_state=rng,
-                  silent=True)
+                  random_state=rng)
 
         pred_train = esn.fit(train_ctrl, train_output)
-        # print "test error:"
         pred_test = esn.predict(test_ctrl)
         error = np.sqrt(np.mean((pred_test - test_output)**2))
-        self.assertAlmostEqual(error, 0.30519018985725715)
+        self.assertLess(error,0.5)
 
 
 if __name__ == '__main__':
